@@ -487,3 +487,44 @@ procdump(void)
     cprintf("\n");
   }
 }
+
+int gettime(int *ctime, int *rtime, int *etime) {
+    struct proc *p;
+    int havekids, pid;
+    acquire(&ptable.lock);
+    for(;;){
+    // Scan for zombie children.
+    havekids = 0;
+    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+        if(p->parent != proc)
+        continue;
+        havekids = 1;
+        if(p->state == ZOMBIE){
+            *etime = p->etime;
+            *rtime = p->rtime;
+            *ctime = p->ctime;
+            pid = p->pid;
+            kfree(p->kstack);
+            p->kstack = 0;
+            freevm(p->pgdir);
+            p->state = UNUSED;
+            p->pid = 0;
+            p->parent = 0;
+            p->name[0] = 0;
+            p->killed = 0;
+            p->ctime = 0;
+            p->etime = 0;
+            p->rtime = 0;
+            release(&ptable.lock);
+            return pid;
+        }
+    }
+    
+    if(!havekids || proc->killed){
+        release(&ptable.lock);
+        return -1;
+    }
+    // Wait for children to exit.
+    sleep(proc, &ptable.lock); 
+    }
+}

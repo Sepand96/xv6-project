@@ -93,6 +93,8 @@
       <in>usys.S</in>
       <in>vectors.S</in>
       <in>vm.c</in>
+      <in>waittest.asm</in>
+      <in>waittest.c</in>
       <in>wc.asm</in>
       <in>wc.c</in>
       <in>x86.h</in>
