@@ -26,7 +26,6 @@
       <in>mkdir.c</in>
       <in>mkfs.c</in>
       <in>mp.c</in>
-      <in>parent.c</in>
       <in>picirq.c</in>
       <in>pipe.c</in>
       <in>printf.c</in>
@@ -88,192 +87,188 @@
           <preBuildCommand></preBuildCommand>
         </preBuild>
       </makefileType>
-      <item path="bio.c" ex="false" tool="0" flavor2="2">
+      <item path="bio.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="bootmain.c" ex="false" tool="0" flavor2="2">
+      <item path="bootmain.c" ex="false" tool="0" flavor2="0">
         <cTool flags="1">
           <incDir>
             <pElem>.</pElem>
           </incDir>
         </cTool>
       </item>
-      <item path="cat.c" ex="false" tool="0" flavor2="2">
+      <item path="cat.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="console.c" ex="false" tool="0" flavor2="2">
+      <item path="console.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="echo.c" ex="false" tool="0" flavor2="2">
+      <item path="echo.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="exec.c" ex="false" tool="0" flavor2="2">
+      <item path="exec.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="file.c" ex="false" tool="0" flavor2="2">
+      <item path="file.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="forktest.c" ex="false" tool="0" flavor2="2">
+      <item path="forktest.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="fs.c" ex="false" tool="0" flavor2="2">
+      <item path="fs.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="grep.c" ex="false" tool="0" flavor2="2">
+      <item path="grep.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="ide.c" ex="false" tool="0" flavor2="2">
+      <item path="ide.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="init.c" ex="false" tool="0" flavor2="2">
+      <item path="init.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="ioapic.c" ex="false" tool="0" flavor2="2">
+      <item path="ioapic.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="kalloc.c" ex="false" tool="0" flavor2="2">
+      <item path="kalloc.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="kbd.c" ex="false" tool="0" flavor2="2">
+      <item path="kbd.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="kill.c" ex="false" tool="0" flavor2="2">
+      <item path="kill.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="lapic.c" ex="false" tool="0" flavor2="2">
+      <item path="lapic.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="ln.c" ex="false" tool="0" flavor2="2">
+      <item path="ln.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="log.c" ex="false" tool="0" flavor2="2">
+      <item path="log.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="ls.c" ex="false" tool="0" flavor2="2">
+      <item path="ls.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="main.c" ex="false" tool="0" flavor2="2">
+      <item path="main.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="mkdir.c" ex="false" tool="0" flavor2="2">
+      <item path="mkdir.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="mkfs.c" ex="false" tool="0" flavor2="2">
+      <item path="mkfs.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="mp.c" ex="false" tool="0" flavor2="2">
+      <item path="mp.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="parent.c" ex="false" tool="0" flavor2="0">
+      <item path="picirq.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="picirq.c" ex="false" tool="0" flavor2="2">
+      <item path="pipe.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="pipe.c" ex="false" tool="0" flavor2="2">
+      <item path="printf.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="printf.c" ex="false" tool="0" flavor2="2">
+      <item path="proc.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="proc.c" ex="false" tool="0" flavor2="2">
+      <item path="rm.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="rm.c" ex="false" tool="0" flavor2="2">
+      <item path="sh.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="sh.c" ex="false" tool="0" flavor2="2">
+      <item path="sleeplock.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="sleeplock.c" ex="false" tool="0" flavor2="2">
+      <item path="spinlock.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="spinlock.c" ex="false" tool="0" flavor2="2">
+      <item path="stressfs.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="stressfs.c" ex="false" tool="0" flavor2="2">
+      <item path="string.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="string.c" ex="false" tool="0" flavor2="2">
+      <item path="syscall.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="syscall.c" ex="false" tool="0" flavor2="2">
+      <item path="sysfile.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="sysfile.c" ex="false" tool="0" flavor2="2">
+      <item path="sysproc.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="sysproc.c" ex="false" tool="0" flavor2="2">
+      <item path="timer.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="timer.c" ex="false" tool="0" flavor2="2">
+      <item path="trap.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="trap.c" ex="false" tool="0" flavor2="2">
+      <item path="uart.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="uart.c" ex="false" tool="0" flavor2="2">
+      <item path="ulib.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="ulib.c" ex="false" tool="0" flavor2="2">
+      <item path="umalloc.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="umalloc.c" ex="false" tool="0" flavor2="2">
+      <item path="usertests.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="usertests.c" ex="false" tool="0" flavor2="2">
+      <item path="vm.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="vm.c" ex="false" tool="0" flavor2="2">
+      <item path="wc.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>
-      <item path="wc.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="0">
-        </cTool>
-      </item>
-      <item path="zombie.c" ex="false" tool="0" flavor2="2">
+      <item path="zombie.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
       </item>

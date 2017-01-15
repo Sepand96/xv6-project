@@ -57,8 +57,6 @@
       <in>mp.c</in>
       <in>mp.h</in>
       <in>param.h</in>
-      <in>parent.asm</in>
-      <in>parent.c</in>
       <in>picirq.c</in>
       <in>pipe.c</in>
       <in>printf.c</in>

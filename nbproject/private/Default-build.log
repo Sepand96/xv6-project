@@ -120,12 +120,12 @@ balloc: write bitmap block at sector 58
 dd if=/dev/zero of=xv6.img count=10000
 10000+0 records in
 10000+0 records out
-5120000 bytes (5.1 MB) copied, 0.0490438 s, 104 MB/s
+5120000 bytes (5.1 MB) copied, 0.0419862 s, 122 MB/s
 dd if=bootblock of=xv6.img conv=notrunc
 1+0 records in
 1+0 records out
-512 bytes (512 B) copied, 0.000128219 s, 4.0 MB/s
+512 bytes (512 B) copied, 0.000153993 s, 3.3 MB/s
 dd if=kernel of=xv6.img seek=1 conv=notrunc
 354+1 records in
 354+1 records out
-181340 bytes (181 kB) copied, 0.00443776 s, 40.9 MB/s
+181340 bytes (181 kB) copied, 0.00116646 s, 155 MB/s

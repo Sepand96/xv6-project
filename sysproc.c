@@ -43,12 +43,6 @@ sys_getpid(void)
 }
 
 int
-sys_getppid(void)
-{
-    return proc->parent->pid;
-}
-
-int
 sys_sbrk(void)
 {
   int addr;
@@ -94,4 +88,17 @@ sys_uptime(void)
   xticks = ticks;
   release(&tickslock);
   return xticks;
+}
+
+int
+sys_getPerformanceData(void)
+{
+    char *_wtime = 0, *_rtime = 0;
+    argptr(0, &_wtime, sizeof(int));
+    argptr(1, &_rtime, sizeof(int));
+    
+    *_rtime = proc->rtime;
+    *_wtime = (proc->etime - proc->ctime) - proc->rtime;
+    
+    return 0;
 }
