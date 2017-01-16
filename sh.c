@@ -154,8 +154,8 @@ main(void)
     #ifdef GRT
         printf(1, "GRT\n");
     #else
-    #ifdef Q3
-        printf(1, "3Q\n");
+    #ifdef MLQ
+        printf(1, "MLQ\n");
     #endif
     #endif
     #endif

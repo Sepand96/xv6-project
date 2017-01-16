@@ -53,6 +53,7 @@ found:
   p->rtime = 0;
   p->etime = 0;
   p->pos = 0;
+  p->priority = 3;
   release(&ptable.lock);
 
   // Allocate kernel stack.
@@ -161,6 +162,7 @@ fork(void)
   np->sz = proc->sz;
   np->parent = proc;
   *np->tf = *proc->tf;
+  np->priority = proc->priority;
 
   // Clear %eax so that fork returns 0 in the child.
   np->tf->eax = 0;
@@ -280,6 +282,68 @@ wait(void)
 //  - swtch to start running that process
 //  - eventually that process transfers control
 //      via swtch back to the scheduler.
+struct proc*
+getnextproc(int strategy , int prior)
+{
+    struct proc *next = 0;
+    struct proc *p = 0;
+    if(strategy == 1)//RR
+    {
+        for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+            if(p->state == RUNNABLE && p->priority == prior)
+                return p;
+    }
+    else if(strategy == 2)//FRR
+    {
+        for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+        {
+            if(p->state == RUNNABLE && p->priority == prior)
+            {
+                  if(next != 0 )
+                  {
+                      if(next->pos > p->pos)
+                          next = p;
+                  }
+                  else
+                      next = p;
+            }
+        }
+        if(next)
+        {
+            for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+                if(p->state == RUNNABLE)
+                  p->pos++;
+            return next;
+        }
+    }
+    else if(strategy == 3)
+    {
+        int nscore=0,ndiv=0;
+        for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+          if(p->state == RUNNABLE && p->priority == prior)
+          {
+                if(next != 0 )
+                {
+                    int pdiv = ticks - p->ctime;
+                    int pscore = pdiv == 0 ? 9999999 : p->rtime / pdiv;
+                    if(nscore > pscore)
+                    {
+                        next = p;
+                        nscore = pscore;
+                    }
+                }
+                else
+                {
+                    next = p;
+                    ndiv = ticks - next->ctime;
+                    nscore = ndiv == 0 ? 9999999 : next->rtime / ndiv;
+                }
+          }
+        }
+        return next;
+    }
+    return 0;
+}
 void
 scheduler(void)
 {
@@ -293,7 +357,7 @@ scheduler(void)
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
     
-    #ifdef RR
+/*    #ifdef RR
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
       if(p->state != RUNNABLE)
         continue;
@@ -374,8 +438,33 @@ scheduler(void)
         }
     #endif
     #endif
+    #endif*/
+    #ifdef RR
+        p = getnextproc(1,3);
+    #else
+    #ifdef FRR
+        p = getnextproc(2, 3);
+    #else 
+    #ifdef GRT
+        p = getnextproc(3,3);
+    #else
+    #ifdef MLQ
+        for(int i = 3;i>0;i--)
+            if(p = getnextproc(4-i,i))
+                break;
     #endif
-    
+    #endif
+    #endif
+    #endif
+    if(p)
+    {
+        proc = p;
+        switchuvm(p);
+        p->state = RUNNING;
+        swtch(&cpu->scheduler, p->context);
+        switchkvm();
+        proc = 0;
+    }
     release(&ptable.lock);
 
   }
@@ -583,6 +672,8 @@ int gettime(int *ctime, int *rtime, int *etime) {
             p->ctime = 0;
             p->etime = 0;
             p->rtime = 0;
+            p->pos = 0;
+            p->priority = 0;
             release(&ptable.lock);
             return pid;
         }
