@@ -99,16 +99,36 @@ trap(struct trapframe *tf)
   }
 
   // Force process exit if it has been killed and is in user space.
-  // (If it is still executing in the kernel, let it keep running
+  // (If it is still executing in Thte kernel, let it keep running
   // until it gets to the regular system call return.)
   if(proc && proc->killed && (tf->cs&3) == DPL_USER)
     exit();
 
+#ifdef DEFAULT
+  
+    if(proc && proc->state == RUNNING && tf->trapno == T_IRQ0+IRQ_TIMER && proc->rtime%QUANTA == 0) 
+    {
+        //decpriority();
+        yield();
+    }
+
+#endif
+#ifdef FRR
+    // Force process to give up CPU on clock tick.
+    // If interrupts were on while locks held, would need to check nlock.
+    if(proc && proc->state == RUNNING && tf->trapno == T_IRQ0+IRQ_TIMER && proc->rtime%QUANTA == 0)
+    {
+        yield();
+    }
+#endif
+
+  
+  /*
   // Force process to give up CPU on clock tick.
   // If interrupts were on while locks held, would need to check nlock.
   if(proc && proc->state == RUNNING && tf->trapno == T_IRQ0+IRQ_TIMER)
     yield();
-
+  */
   // Check if the process has been killed since we yielded
   if(proc && proc->killed && (tf->cs&3) == DPL_USER)
     exit();

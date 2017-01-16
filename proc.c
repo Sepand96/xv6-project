@@ -291,6 +291,9 @@ scheduler(void)
 
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
+    
+    
+    #ifdef DEFAULT
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
       if(p->state != RUNNABLE)
         continue;
@@ -308,6 +311,41 @@ scheduler(void)
       // It should have changed its p->state before coming back.
       proc = 0;
     }
+    #else
+    #ifdef FRR
+    struct proc *next = 0;
+    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+      if(p->state == RUNNABLE)
+      {
+            if(next != 0 )
+            {
+                if(next->pos > p->pos)
+                    next = p;
+            }
+            else
+                next = p;
+      }
+    }
+    //found the next process not set new positions
+    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+      if(p->state == RUNNABLE)
+        p->pos++;
+      
+    //push to the end of the queue  
+    next->pos = 0;
+    
+    
+      proc = next;
+      switchuvm(next);
+      next->state = RUNNING;
+      swtch(&cpu->scheduler, next->context);
+      switchkvm();
+
+      proc = 0;
+    
+    #endif
+    #endif
+    
     release(&ptable.lock);
 
   }
