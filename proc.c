@@ -52,7 +52,7 @@ found:
   p->ctime = ticks;
   p->rtime = 0;
   p->etime = 0;
-
+  p->pos = 0;
   release(&ptable.lock);
 
   // Allocate kernel stack.
@@ -284,6 +284,7 @@ void
 scheduler(void)
 {
   struct proc *p;
+  
 
   for(;;){
     // Enable interrupts on this processor.
@@ -292,8 +293,7 @@ scheduler(void)
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
     
-    
-    #ifdef DEFAULT
+    #ifdef RR
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
       if(p->state != RUNNABLE)
         continue;
@@ -326,23 +326,53 @@ scheduler(void)
                 next = p;
       }
     }
-    //found the next process not set new positions
-    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-      if(p->state == RUNNABLE)
-        p->pos++;
-      
-    //push to the end of the queue  
-    next->pos = 0;
-    
-    
-      proc = next;
-      switchuvm(next);
-      next->state = RUNNING;
-      swtch(&cpu->scheduler, next->context);
-      switchkvm();
+    //found the next process now set new positions
+    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+        if(p->state == RUNNABLE)
+          p->pos++;
+    if(next)
+    {
+            //push to the end of the queue  
+        next->pos = 0;
+        p = next;
+        proc = p;
+        switchuvm(p);
+        p->state = RUNNING;
+        swtch(&cpu->scheduler, p->context);
+        switchkvm();
 
-      proc = 0;
-    
+        proc = 0;
+    }
+    #else
+    #ifdef GRT
+        struct proc *next = 0;
+        for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+          if(p->state == RUNNABLE)
+          {
+                if(next != 0 )
+                {
+                    int pdiv = ticks - p->ctime;
+                    int pscore = pdiv == 0 ? 9999999 : p->rtime / pdiv;
+                    int ndiv = ticks - next->ctime;
+                    int nscore = ndiv == 0 ? 9999999 : next->rtime / ndiv;
+                    if(nscore > pscore)
+                        next = p;
+                }
+                else
+                    next = p;
+          }
+        }
+        if(next)
+        {
+          p = next;
+          proc = p;
+          switchuvm(p);
+          p->state = RUNNING;
+          swtch(&cpu->scheduler, p->context);
+          switchkvm();
+          proc = 0;
+        }
+    #endif
     #endif
     #endif
     

@@ -71,8 +71,9 @@ QEMU = $(shell if which qemu > /dev/null; \
 endif
 
 ifndef SCHEDFLAG
-SCHEDFLAG := DEFAULT
+SCHEDFLAG := RR
 endif
+
 
 CC = $(TOOLPREFIX)gcc
 AS = $(TOOLPREFIX)gas
