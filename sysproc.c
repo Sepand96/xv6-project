@@ -97,6 +97,7 @@ sys_getPerformanceData(void)
     argptr(0, &_wtime, sizeof(int));
     argptr(1, &_rtime, sizeof(int));
     int * etime=0,*rtime=0,*ctime=0;
+    //int pid = proc->pid;
     gettime(ctime,rtime,etime);
     *_wtime = (*etime - *ctime)- *rtime;
     *_rtime = *rtime;

@@ -53,7 +53,7 @@ found:
   p->rtime = 0;
   p->etime = 0;
   p->pos = 0;
-  p->priority = 3;
+  p->priority = 1;
   p->flag = 0;
   release(&ptable.lock);
 
@@ -259,6 +259,7 @@ wait(void)
         p->name[0] = 0;
         p->killed = 0;
         p->state = UNUSED;
+        p->flag = 0;
         release(&ptable.lock);
         return pid;
       }
@@ -286,15 +287,32 @@ wait(void)
 struct proc*
 getnextproc(int strategy , int prior)
 {
+    
     struct proc *next = 0;
     struct proc *p = 0;
-    if(strategy == 1)//RR
+    /*if(strategy == 1)//RR
     {
-        for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
-            if(p->state == RUNNABLE && p->priority == prior)
-                return p;
+        int j;
+        for(j=0; j<NPROC ; j++)
+        {            
+            if((ptable.proc+((j+rrpos)%NPROC))->state == RUNNABLE && (ptable.proc+((j+rrpos)%NPROC))->priority == prior)
+            {
+                cprintf("pos is %d     %d\n",rrpos,j);
+                rrpos++;
+                return (ptable.proc+((j+rrpos)%NPROC));
+            }
+        }
     }
-    else if(strategy == 2)//FRR
+    if(strategy == 1)
+    {
+        if(p==0)    
+            p = ptable.proc;
+        for(; p < &ptable.proc[NPROC]; p++){
+            if(p->state == RUNNABLE)
+                return p;
+        }
+    }*/
+    if(strategy == 2)//FRR
     {
         for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
         {
@@ -314,19 +332,22 @@ getnextproc(int strategy , int prior)
             for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
                 if(p->state == RUNNABLE && p->priority == prior)
                   p->pos++;
+            next->pos = 0;
             return next;
         }
     }
     else if(strategy == 3)
     {
-        int nscore=0,ndiv=0;
+        double nscore=0,pscore = 0,pdiv=0;
+        
         for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-          if(p->state == RUNNABLE && p->priority == prior)
-          {
+            if( p->state == RUNNABLE && p->priority == prior)
+            {
+                pdiv = ticks - p->ctime;
+                pscore = pdiv == 0 ? 99999999 : p->rtime / pdiv;
+                pscore = pscore * 10000;
                 if(next != 0 )
                 {
-                    int pdiv = ticks - p->ctime;
-                    int pscore = pdiv == 0 ? 9999999 : p->rtime / pdiv;
                     if(nscore > pscore)
                     {
                         next = p;
@@ -336,10 +357,10 @@ getnextproc(int strategy , int prior)
                 else
                 {
                     next = p;
-                    ndiv = ticks - next->ctime;
-                    nscore = ndiv == 0 ? 9999999 : next->rtime / ndiv;
+                    nscore = pscore;
                 }
-          }
+                //cprintf("process %d score is %d    /   %d\n",p->pid,p->rtime , pdiv);
+            }
         }
         return next;
     }
@@ -349,8 +370,8 @@ void
 scheduler(void)
 {
 
-  struct proc *p;
-  
+  struct proc *p=0;
+ 
 
   for(;;){
     // Enable interrupts on this processor.
@@ -358,72 +379,119 @@ scheduler(void)
 
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
-    
     #ifdef RR
-        p = getnextproc(1,3);
+    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+      if(p->state != RUNNABLE)
+        continue;
+
+      proc = p;
+      switchuvm(p);
+      p->state = RUNNING;
+      swtch(&cpu->scheduler, p->context);
+      switchkvm();
+      proc = 0;
+    } 
     #else
     #ifdef FRR
         struct proc* next=0;
+        //print the queue
         int f = 0;
-    int i;
-    for(i = 0 ; i<20;i++)
-    {
-        next = 0;
-        for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+        int i;
+        for(i = 0 ; (i < NPROC) ;i++)
         {
-            if((p->state == RUNNABLE  || p->state == RUNNING || p->state == EMBRYO)&& p->flag == 0)
+            next = 0;
+            for(p = ptable.proc; (p < &ptable.proc[NPROC]); p++)
             {
-                if(next != 0 )
+                if((p->state == RUNNABLE  || p->state == RUNNING)&& p->flag == 0)
                 {
-                    if(next->pos <= p->pos)
+                    if(next != 0 )
+                    {
+                        if(next->pos < p->pos)
+                        {
+                            next = p;
+                            p->flag =1;
+                            f=1;
+                        }
+                    }
+                    else
                     {
                         next = p;
-                        p->flag =1;
+                        next->flag = 1;
                         f=1;
                     }
                 }
-                else
-                {
-                    next = p;
-                    next->flag = 1;
-                    f=1;
-                }
             }
+            if(next)
+                cprintf("%d   ", next->pid);
         }
-        if(next)
-            cprintf("%d   ", next->pid);
-    }
-    if(f)
-    cprintf("\n");
-    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
-        p->flag = 0;
-
-        p = getnextproc(2, 3);
+        if(f)
+        cprintf("\n");
+        //end of print
+        p = getnextproc(2, 1);
+        if(p)
+        {
+            proc = p;
+            switchuvm(p);
+            p->state = RUNNING;
+            swtch(&cpu->scheduler, p->context);
+            switchkvm();
+            proc = 0;
+        }
     #else 
     #ifdef GRT
-        p = getnextproc(3,3);
+        p = getnextproc(3,1);
+        if(p)
+        {
+            proc = p;
+            switchuvm(p);
+            p->state = RUNNING;
+            swtch(&cpu->scheduler, p->context);
+            switchkvm();
+            proc = 0;
+        }
     #else
     #ifdef MLQ
         int i;
-        for(i = 3;i>0;i--)
+        static struct proc* q = ptable.proc;
+        
+        for(i = 1;i<4;i++)
         {
-            p = getnextproc(4-i,i);
-            if(p)
-                break;
+            if(i == 3)
+            {
+                for(; q < &ptable.proc[NPROC]; q++)
+                {
+                    if(q->state != RUNNABLE || q->priority != 3)
+                      continue;
+                    
+                    proc = q;
+                    switchuvm(q);
+                    q->state = RUNNING;
+                    swtch(&cpu->scheduler, q->context);
+                    switchkvm();
+                    proc = 0;
+                    if(q == &ptable.proc[NPROC-1])
+                        q = ptable.proc;
+                  } 
+            }
+            else
+            {
+                p = getnextproc(4-i,i);
+                if(p)
+                {
+                    proc = p;
+                    switchuvm(p);
+                    p->state = RUNNING;
+                    swtch(&cpu->scheduler, p->context);
+                    switchkvm();
+                    proc = 0;
+                    break;
+                }
+            }
         }
     #endif
     #endif
     #endif
     #endif
-    if(p)
-    {
-        proc = p;
-        switchuvm(p);
-        p->state = RUNNING;
-        swtch(&cpu->scheduler, p->context);
-        switchkvm();
-        proc = 0;
-    }
     release(&ptable.lock);
   }
 }
@@ -631,7 +699,8 @@ int gettime(int *ctime, int *rtime, int *etime) {
             p->etime = 0;
             p->rtime = 0;
             p->pos = 0;
-            p->priority = 0;
+            p->priority = 1;
+            p->flag = 0;
             release(&ptable.lock);
             return pid;
         }

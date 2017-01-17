@@ -2,6 +2,10 @@
 <configurationDescriptor version="100">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <df root="." name="0">
+      <in>Gsanity.asm</in>
+      <in>Gsanity.c</in>
+      <in>RRsanity.asm</in>
+      <in>RRsanity.c</in>
       <in>asm.h</in>
       <in>bio.c</in>
       <in>bootasm.S</in>
@@ -25,6 +29,8 @@
       <in>file.h</in>
       <in>forktest.asm</in>
       <in>forktest.c</in>
+      <in>frrtest.asm</in>
+      <in>frrtest.c</in>
       <in>fs.c</in>
       <in>fs.h</in>
       <in>grep.asm</in>
@@ -45,12 +51,10 @@
       <in>ln.asm</in>
       <in>ln.c</in>
       <in>log.c</in>
-      <in>ls.asm</in>
       <in>ls.c</in>
       <in>main.c</in>
       <in>memide.c</in>
       <in>memlayout.h</in>
-      <in>mkdir.asm</in>
       <in>mkdir.c</in>
       <in>mkfs.c</in>
       <in>mmu.h</in>
@@ -71,7 +75,6 @@
       <in>spinlock.c</in>
       <in>spinlock.h</in>
       <in>stat.h</in>
-      <in>stressfs.asm</in>
       <in>stressfs.c</in>
       <in>string.c</in>
       <in>swtch.S</in>

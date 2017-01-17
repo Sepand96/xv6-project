@@ -22,7 +22,7 @@ void rrtest(void)
         if(pid == 0)
         {
             int i;
-            for(i = 0 ; i < 1 ; i++)
+            for(i = 0 ; i < 2000 ; i++)
             {
                 printf(1,"Child %d prints for the %d time\n",getpid(),i);
             }
