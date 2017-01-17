@@ -117,6 +117,7 @@ int             wait(void);
 int             gettime(int*, int*,int*);
 void            wakeup(void*);
 void            yield(void);
+int             getque(int*,int*);
 
 // swtch.S
 void            swtch(struct context**, struct context*);

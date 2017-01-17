@@ -22,3 +22,4 @@
 #define SYS_close  21
 #define SYS_getPerformanceData 22
 #define SYS_nice 23
+#define SYS_getQ 24

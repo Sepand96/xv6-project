@@ -102,10 +102,26 @@ sys_getPerformanceData(void)
     *_rtime = *rtime;
     return 0;
 }
+
 int
 sys_nice(void)
 {
     if(proc->priority > 1)
         proc->priority--;
+    return 0;
+}
+
+int
+sys_getQ(void)
+{
+    char *arr = 0,*size=0;
+    argptr(0, &arr, sizeof(int));
+    argptr(1, &size, sizeof(int));
+    int i[NPROC],sz;
+    getque(i,&sz);
+    int j;
+    for(j=0;j<sz;j++)
+        arr[j] = i[j];
+    *size = sz;
     return 0;
 }

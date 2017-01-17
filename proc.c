@@ -54,6 +54,7 @@ found:
   p->etime = 0;
   p->pos = 0;
   p->priority = 3;
+  p->flag = 0;
   release(&ptable.lock);
 
   // Allocate kernel stack.
@@ -301,7 +302,7 @@ getnextproc(int strategy , int prior)
             {
                   if(next != 0 )
                   {
-                      if(next->pos > p->pos)
+                      if(next->pos < p->pos)
                           next = p;
                   }
                   else
@@ -311,7 +312,7 @@ getnextproc(int strategy , int prior)
         if(next)
         {
             for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
-                if(p->state == RUNNABLE)
+                if(p->state == RUNNABLE && p->priority == prior)
                   p->pos++;
             return next;
         }
@@ -347,6 +348,7 @@ getnextproc(int strategy , int prior)
 void
 scheduler(void)
 {
+
   struct proc *p;
   
 
@@ -361,6 +363,41 @@ scheduler(void)
         p = getnextproc(1,3);
     #else
     #ifdef FRR
+        struct proc* next=0;
+        int f = 0;
+    int i;
+    for(i = 0 ;i<NPROC;i++)
+    {
+        next = 0;
+        for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+        {
+            if(p->state == RUNNABLE && p->flag == 0)
+            {
+                if(next != 0 )
+                {
+                    if(next->pos <= p->pos)
+                    {
+                        next = p;
+                        p->flag =1;
+                        f=1;
+                    }
+                }
+                else
+                {
+                    next = p;
+                    next->flag = 1;
+                    f=1;
+                }
+            }
+        }
+        if(next)
+            cprintf("%d   ", next->pid);
+    }
+    if(f)
+    cprintf("\n");
+    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+        p->flag = 0;
+
         p = getnextproc(2, 3);
     #else 
     #ifdef GRT
@@ -567,6 +604,10 @@ procdump(void)
 }
 
 int gettime(int *ctime, int *rtime, int *etime) {
+    /*waitid(p->pid);
+    *etime = p->etime;
+    *rtime = p->rtime;
+    *ctime = p->ctime;*/
     struct proc *p;
     int havekids, pid;
     acquire(&ptable.lock);
@@ -607,4 +648,14 @@ int gettime(int *ctime, int *rtime, int *etime) {
     // Wait for children to exit.
     sleep(proc, &ptable.lock); 
     }
+    return 0;
+}
+int getque(int * arr,int *size)
+{
+    /*struct proc* p,*next=0;
+    int i=0;
+    acquire(&ptable.lock);
+    
+    release(&ptable.lock);*/
+    return 0;
 }
