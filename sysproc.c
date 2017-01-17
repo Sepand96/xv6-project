@@ -102,3 +102,10 @@ sys_getPerformanceData(void)
     *_rtime = *rtime;
     return 0;
 }
+int
+sys_nice(void)
+{
+    if(proc->priority > 1)
+        proc->priority--;
+    return 0;
+}
