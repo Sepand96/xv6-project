@@ -101,6 +101,7 @@ extern int sys_uptime(void);
 extern int sys_getPerformanceData(void);
 extern int sys_nice(void);
 extern int sys_getQ(void);
+extern int sys_setcid(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -126,7 +127,7 @@ static int (*syscalls[])(void) = {
 [SYS_close]   sys_close,
 [SYS_getPerformanceData]    sys_getPerformanceData,
 [SYS_nice]    sys_nice,
-[SYS_getQ] sys_getQ,
+[SYS_setcid] sys_setcid,
 };
 
 void

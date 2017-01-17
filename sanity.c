@@ -1,4 +1,4 @@
-#include "types.h"
+/*#include "types.h"
 #include "user.h"
 #include "spinlock.h"
 #include "param.h"
@@ -8,8 +8,8 @@
 int main(void) {
     int childPid[NUM_OF_CHILD], pid;
     int i , j,cid = 0;
-    struct spinlock lk;
-    initlock(&lk,"cidlock");
+    struct spinlock lock;
+    def::initlock(&lock,"cidlock");
     for ( i = 0; i < NUM_OF_CHILD; i++) {
         childPid[i] = 0;
     }
@@ -20,16 +20,17 @@ int main(void) {
 		 exit();
 	} 
 	else if (pid == 0) {
-            acquire(&lk);
-            childpid[cid] = getpid();
+            def::acquire(&lock);
+            childPid[cid] = getpid();
             cid++;
-            release(&lk);
+            def::release(&lock);
             int childid=0;
-            for(int i = 0;i<NUM_OF_CHILD;i++)
+            int k;
+            for(k = 0;k<NUM_OF_CHILD;k++)
             {
-                if(childpid[i] == getpid())
+                if(childPid[k] == getpid())
                 {
-                    childid = i;
+                    childid = k;
                     break;
                 }
             }
@@ -51,32 +52,34 @@ int main(void) {
     int sumOfRtime = 0;
     int sumOfRtimeQ1 = 0;
     int sumOfRtimeQ2 = 0;
-    int sumOfRtimeQ3 = 0;
+    int sumOfRtimeQ0 = 0;
     int sumOfWtimeQ1 = 0;
     int sumOfWtimeQ2 = 0;
-    int sumOfWtimeQ3 = 0;
+    int sumOfWtimeQ0 = 0;
     int numOfQ1 = 0;
     int numOfQ2 = 0;
     int numOfQ0 = 0;
-
+    int childid=0;
     int info[NUM_OF_CHILD][3] ;
     for (  i = 0; i < NUM_OF_CHILD; i++) {
         int wtime;
         int rtime;
 	int pid2=getPerformanceData(&wtime,&rtime);
-	for(int i = 0;i<NUM_OF_CHILD;i++)
+        int k = 0;
+	for( k = 0;k<NUM_OF_CHILD;k++)
         {
-            if(childpid[i] == pid2)
+            if(childPid[k] == pid2)
             {
-                childid = i;
+                childid = k;
                 break;
             }
         }
-	switch(childid % 3) {
+	switch(childid % 3) 
+        {
             case 0 :
-                sumOfRtimeQ3 += rtime;
-                sumOfWtimeQ3 += wtime;
-                numOfQ3++;
+                sumOfRtimeQ0 += rtime;
+                sumOfWtimeQ0 += wtime;
+                numOfQ0++;
                 break;
             case 1 :
                 sumOfRtimeQ1 += rtime;
@@ -107,8 +110,8 @@ int main(void) {
 	 printf(1, "Average waiting time for all children : %d \n", sumOfWtime / NUM_OF_CHILD);
    	 printf(1, "Average turnaround time for all children : %d \n",
            (sumOfWtime + sumOfRtime) / NUM_OF_CHILD);
-    	printf(1, "Average waiting time for queue 0 children : %d \n",  sumOfWtimeQ0 /  numOfQ0);
-    	printf(1, "Average turnaround time for queue 0 children : %d \n",
+        printf(1, "Average waiting time for queue 3 children : %d \n",  sumOfWtimeQ0 /  numOfQ0);
+    	printf(1, "Average turnaround time for queue 3 children : %d \n",
            (sumOfWtimeQ0 + sumOfRtimeQ0) / numOfQ0);
     	printf(1, "Average waiting time for queue 1 children : %d \n", sumOfWtimeQ1 /  numOfQ1);
     	printf(1, "Average turnaround time for queue 1 children : %d \n",
@@ -117,4 +120,4 @@ int main(void) {
     	printf(1, "Average turnaround time for queue 2 children : %d \n",
            (sumOfWtimeQ2 + sumOfRtimeQ2) / numOfQ2);
 	exit();
-}
+}*/

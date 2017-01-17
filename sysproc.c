@@ -97,11 +97,11 @@ sys_getPerformanceData(void)
     argptr(0, &_wtime, sizeof(int));
     argptr(1, &_rtime, sizeof(int));
     int * etime=0,*rtime=0,*ctime=0;
-    //int pid = proc->pid;
+    int cid = proc->cid;
     gettime(ctime,rtime,etime);
     *_wtime = (*etime - *ctime)- *rtime;
     *_rtime = *rtime;
-    return 0;
+    return cid;
 }
 
 int
@@ -113,16 +113,10 @@ sys_nice(void)
 }
 
 int
-sys_getQ(void)
+sys_setcid(void)
 {
-    char *arr = 0,*size=0;
-    argptr(0, &arr, sizeof(int));
-    argptr(1, &size, sizeof(int));
-    int i[NPROC],sz;
-    getque(i,&sz);
-    int j;
-    for(j=0;j<sz;j++)
-        arr[j] = i[j];
-    *size = sz;
+    char*cid=0;
+    argptr(0, &cid, sizeof(int));
+    *cid = proc->cid;
     return 0;
 }

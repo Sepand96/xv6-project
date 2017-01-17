@@ -11,13 +11,12 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/sepand/xv6-public/proc.c</file>
+            <file>file:/home/sepand/xv6-public/sleeplock.h</file>
             <file>file:/home/sepand/xv6-public/sysproc.c</file>
-            <file>file:/home/sepand/xv6-public/Makefile</file>
-            <file>file:/home/sepand/xv6-public/RRsanity.c</file>
-            <file>file:/home/sepand/xv6-public/param.h</file>
-            <file>file:/home/sepand/xv6-public/Gsanity.c</file>
-            <file>file:/home/sepand/xv6-public/waittest.c</file>
-            <file>file:/home/sepand/xv6-public/trap.c</file>
+            <file>file:/home/sepand/xv6-public/bio.c</file>
+            <file>file:/home/sepand/xv6-public/sanity.c</file>
+            <file>file:/home/sepand/xv6-public/defs.h</file>
+            <file>file:/home/sepand/xv6-public/proc.h</file>
         </group>
     </open-files>
 </project-private>

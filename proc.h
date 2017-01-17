@@ -67,6 +67,7 @@ struct proc {
   uint pos;                    //position in queue
   int priority;                //priority in multilevel queues
   int flag;                   //getQ flag
+  int cid;
 };
 
 // Process memory is laid out contiguously, low addresses first:

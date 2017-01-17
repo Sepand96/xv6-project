@@ -51,10 +51,12 @@
       <in>ln.asm</in>
       <in>ln.c</in>
       <in>log.c</in>
+      <in>ls.asm</in>
       <in>ls.c</in>
       <in>main.c</in>
       <in>memide.c</in>
       <in>memlayout.h</in>
+      <in>mkdir.asm</in>
       <in>mkdir.c</in>
       <in>mkfs.c</in>
       <in>mmu.h</in>
@@ -68,6 +70,8 @@
       <in>proc.h</in>
       <in>rm.asm</in>
       <in>rm.c</in>
+      <in>sanity.asm</in>
+      <in>sanity.c</in>
       <in>sh.asm</in>
       <in>sh.c</in>
       <in>sleeplock.c</in>
@@ -75,6 +79,7 @@
       <in>spinlock.c</in>
       <in>spinlock.h</in>
       <in>stat.h</in>
+      <in>stressfs.asm</in>
       <in>stressfs.c</in>
       <in>string.c</in>
       <in>swtch.S</in>
