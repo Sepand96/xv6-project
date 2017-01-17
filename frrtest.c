@@ -5,11 +5,11 @@
 
 
 
-void rrtest(void)
+void frrtest(void)
 {
     int n, pid;
     int wTime[10],rTime[10];
-    printf(1, "RR sanity test test\n");
+    printf(1, "FRR sanity test test\n");
 
     for(n=0; n<10; n++)
     {
@@ -21,10 +21,9 @@ void rrtest(void)
         }
         if(pid == 0)
         {
-            for(n = 0 ; n < 1 ; n++)
-            {
-                printf(1,"Child %d prints for the %d time\n",getpid(),n);
-            }
+            int i= 0;
+            for(i=0 ; i < 100000 ; i++);
+            
             break;
         }
     }
@@ -33,14 +32,11 @@ void rrtest(void)
     {
         for(n=0;n<10;n++)
             getPerformanceData(&wTime[n],&rTime[n]);
-        
-        for(n=0;n<10;n++)
-            printf(1, "Child %d status:\nWaiting Time: %d\tRunning Time : %d\tTurnaround Time: %d\n",n,wTime[n],rTime[n],wTime[n]+rTime[n]);
     }
 }
 
 int main(void)
 {
-    rrtest();
+    frrtest();
     exit();
 }

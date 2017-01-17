@@ -21,9 +21,10 @@ void rrtest(void)
         }
         if(pid == 0)
         {
-            for(n = 0 ; n < 1 ; n++)
+            int i;
+            for(i = 0 ; i < 1 ; i++)
             {
-                printf(1,"Child %d prints for the %d time\n",getpid(),n);
+                printf(1,"Child %d prints for the %d time\n",getpid(),i);
             }
             break;
         }

@@ -366,12 +366,12 @@ scheduler(void)
         struct proc* next=0;
         int f = 0;
     int i;
-    for(i = 0 ;i<NPROC;i++)
+    for(i = 0 ; i<20;i++)
     {
         next = 0;
         for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
         {
-            if(p->state == RUNNABLE && p->flag == 0)
+            if((p->state == RUNNABLE  || p->state == RUNNING || p->state == EMBRYO)&& p->flag == 0)
             {
                 if(next != 0 )
                 {
@@ -604,10 +604,6 @@ procdump(void)
 }
 
 int gettime(int *ctime, int *rtime, int *etime) {
-    /*waitid(p->pid);
-    *etime = p->etime;
-    *rtime = p->rtime;
-    *ctime = p->ctime;*/
     struct proc *p;
     int havekids, pid;
     acquire(&ptable.lock);
